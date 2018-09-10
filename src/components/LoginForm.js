@@ -9,12 +9,11 @@ import { Button,Card,CardSection,CardSection2,Spinner} from '../ortak';
 class LoginForm extends Component{
     state ={email:'',password:'', loading:false};
     clickLogin() {
-        
-        const{email,password} = this.props;
-        this.props.loginUser({ email, password });
+        this.setState({ loading: true });
+        const { email,password } = this.state;
 
-        if (email=== '' || password === ''){
-            this.setState({loading:false});
+        if (email === '' || password === ''){
+            this.setState( { loading: false} );
             Alert.alert(
                 'Mesaj',
                 'Her iki alanda dolu olmalı!',
@@ -25,7 +24,7 @@ class LoginForm extends Component{
         }else {
         firebase.auth().signInWithEmailAndPassword(email,password)
         .then(this.loginSucces.bind(this))
-        .catch(()=> {
+        .catch(() => {
             firebase.auth().createUserWithEmailAndPassword(email,password)
             .then(this.loginSucces.bind(this))
             .catch(this.loginFail.bind(this));
@@ -40,13 +39,21 @@ class LoginForm extends Component{
 
     loginFail(){
         console.log('Hatalı');
+        this.setState({loading: false});
+        Alert.alert(
+            'Mesaj',
+            'Kullanıcı adı veya şifreniz hatalı!',
+            [
+                {text: 'Tamam', onPress: () => null}
+            ]
+        );
     }
 
     renderButton(){
         if(!this.props.loading){
             return <Button onPress={this.clickLogin.bind(this)}>GİRİŞ</Button>
         }
-        return<Spinner size="small"/>
+        return<Spinner size="small"/>;
     }
 
     render(){
@@ -73,11 +80,11 @@ class LoginForm extends Component{
             />
         </CardSection>
         
-        <CardSection2>
-        <Button onPress={this.clickLogin.bind(this)}>GİRİŞ</Button>
+       <CardSection2>
+       {this.renderButton()}
         </CardSection2>
         <CardSection2>
-        <Button onPress={this.clickLogin.bind(this)}>KAYIT OL</Button>
+        <Button>KAYIT OL</Button>
         </CardSection2>
         </Card>
         );

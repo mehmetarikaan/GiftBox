@@ -4,7 +4,7 @@ import { EMAIL_CHANGED,
          PASSWORD_CHANGED,
          LOGIN_USER,
          LOGIN_USER_SUCCES,
-         LOGIN_SUCCES_FAIL } from './types';
+         LOGIN_USER_FAIL } from './types';
 
 export const emailChanged = (email) => {
     return (dispatch) => {
@@ -28,7 +28,7 @@ export const passwordChanged = (password) => {
 export const loginUser = ({ email, password }) => {
 return (dispatch) => {
     dispatch({ type: LOGIN_USER });
-    if (email=== '' || password === ''){
+    if (email === '' || password === ''){
         this.setState({loading:false});
         Alert.alert(
             'Mesaj',
@@ -42,10 +42,11 @@ return (dispatch) => {
     .then(user => loginSucces(dispatch, user))
     .catch(()=> {
         firebase.auth().createUserWithEmailAndPassword(email,password)
-        .then(this.loginSucces.bind(this))
+        .then(user => loginSucces(dispatch, user))
         .catch(() => loginFail());
     });
-}};
+}
+};
 };
 
 const loginFail = (dispatch) => {
