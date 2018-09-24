@@ -77,8 +77,8 @@ class ProfileSettings extends Component {
                         <TextInput
                             placeholder="Ad Soyad"
                             style={styles.inputStyle}
-                            value={this.props.name}
-                            onChangeText={name => this.props.profileUpdate(name)}
+                            value={this.props.names}
+                            onChangeText={names => this.props.profileUpdate(names)}
                         />
                     </CardSection>
 
@@ -153,16 +153,16 @@ const styles = StyleSheet.create(
         },
         // Fotoğrafın stili
         image: {
-            width: 120,
-            height: 120,
+            width: 110,
+            height: 110,
             borderRadius: 100,
-            marginBottom: 10
+            marginBottom: 8
         },
         // Siyah kısımda yer alan stiller
         blackCard: {
             flexDirection: 'row',
             backgroundColor: 'black',
-            padding: 5,
+            padding: 3,
         },
         blackCardSection: {
             flexDirection: 'row',

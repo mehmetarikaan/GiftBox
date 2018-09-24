@@ -1,66 +1,74 @@
-import React, {Component} from 'react';
-import {Alert,TextInput} from 'react-native';
+import React, { Component } from 'react';
+import { Alert, TextInput, View } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import {emailChanged, passwordChanged, loginUser} from '../actions';
-import { Button,Card,CardSection,CardSection2,Spinner} from '../ortak';
+import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { Button, Card, CardSection, CardSection2, Spinner } from '../ortak';
+import Header from '../ortak/header';
 
+class LoginForm extends Component {
+    
+   // state = { email: '', password: '', loading: false };
 
-class LoginForm extends Component{
-    state ={email:'',password:'', loading:false};
     clickLogin() {
-        this.setState({ loading: true });
-        const { email,password } = this.state;
+        const { email, password } = this.props;
+        this.props.loginUser({ email, password });
 
-        if (email === '' || password === ''){
-            this.setState( { loading: false} );
-            Alert.alert(
-                'Mesaj',
-                'Her iki alanda dolu olmalı!',
-                [
-                    {text:'Tamam', onPress: () => null}
-                ]
-            );
-        }else {
-        firebase.auth().signInWithEmailAndPassword(email,password)
-        .then(this.loginSucces.bind(this))
-        .catch(() => {
-            firebase.auth().createUserWithEmailAndPassword(email,password)
-            .then(this.loginSucces.bind(this))
-            .catch(this.loginFail.bind(this));
-        });
-    }
+    //     this.setState({ loading: true });
+    //     const { email, password } = this.state;
+
+    //     if (email === '' || password === '') {
+    //         this.setState({ loading: false });
+    //         Alert.alert(
+    //             'Mesaj',
+    //             'Her iki alanda dolu olmalı!',
+    //             [
+    //                 { text: 'Tamam', onPress: () => null }
+    //             ]
+    //         );
+    //     } else {
+    //     firebase.auth().signInWithEmailAndPassword(email, password)
+    //     .then(this.loginSucces.bind(this))
+    //     .catch(() => {
+    //         firebase.auth().createUserWithEmailAndPassword(email, password)
+    //         .then(this.loginSucces.bind(this))
+    //         .catch(this.loginFail.bind(this));
+    //     });
+    // }
 }
 
-    loginSucces(){
-        console.log('başarılı');
-        this.setState({loading:false});
-    }
+    // loginSucces() {
+    //     console.log('başarılı');
+    //     this.setState({ loading: false });
+    // }
 
-    loginFail(){
-        console.log('Hatalı');
-        this.setState({loading: false});
-        Alert.alert(
-            'Mesaj',
-            'Kullanıcı adı veya şifreniz hatalı!',
-            [
-                {text: 'Tamam', onPress: () => null}
-            ]
-        );
-    }
+    // loginFail() {
+    //     console.log('Hatalı');
+    //     this.setState({ loading: false });
+    //     Alert.alert(
+    //         'Mesaj',
+    //         'Kullanıcı adı veya şifreniz hatalı!',
+    //         [
+    //             { text: 'Tamam', onPress: () => null }
+    //         ]
+    //     );
+    // }
 
-    renderButton(){
-        if(!this.props.loading){
-            return <Button onPress={this.clickLogin.bind(this)}>GİRİŞ</Button>
+    renderButton() {
+        if (!this.props.loading) {
+            return <Button onPress={this.clickLogin.bind(this)}>GİRİŞ</Button>;
         }
-        return<Spinner size="small"/>;
+        return <Spinner size="small" />;
     }
 
-    render(){
+    render() {
         console.log('response email' + this.props.email);
         console.log('response password' + this.props.password);
         const { inputStyle } = styles;
-        return(
+        return (
+            <View>
+            <Header headerText="GIFTBOX" />
+
             <Card>
             <CardSection>
             <TextInput 
@@ -87,29 +95,30 @@ class LoginForm extends Component{
         <Button>KAYIT OL</Button>
         </CardSection2>
         </Card>
+       </View>
         );
     }
 }
 
-const styles={
-    inputStyle:{
-        color:'#000',
-        paddingRight:5,
-        paddingLeft:5,
-        fontSize:18,
-        lineHeight:23,
-        flex:2
+const styles = {
+    inputStyle: {
+        color: '#000',
+        paddingRight: 5,
+        paddingLeft: 5,
+        fontSize: 18,
+        lineHeight: 23,
+        flex: 2
     }
 
 };
 
-const mapStateToProps = ({kimlikdogrulamaResponse}) => {
-    const {email, password, loading} = kimlikdogrulamaResponse;
-    return{
+const mapStateToProps = ({ kimlikdogrulamaResponse }) => {
+    const { email, password, loading } = kimlikdogrulamaResponse;
+    return {
         email,
         password,
         loading
     };
 };
 
-export default connect(mapStateToProps, {emailChanged,passwordChanged,loginUser})(LoginForm);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
