@@ -25,13 +25,13 @@ class Main extends Component {
     render() {
         const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
         return (
-            <Provider store={store}>  
+           <Provider store={store}>  
             {/* <View>
                 <Header headerText="GIFTBOX" />
                 <LoginForm />
             </View>    */}
             
-            <ProfileSettings />        
+            <ProfileSettings />
             </Provider>
         );
     }
