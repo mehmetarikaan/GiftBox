@@ -8,6 +8,7 @@ import reducers from './reducers';
 import Header from './ortak/header';
 import LoginForm from './components/LoginForm';
 import ProfileSettings from './components/ProfileSettings';
+import Router from './Router';
 
 class Main extends Component {
     componentWillMount() {
@@ -25,6 +26,7 @@ class Main extends Component {
     render() {
         const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
         return (
+<<<<<<< HEAD
            <Provider store={store}>  
             {/* <View>
                 <Header headerText="GIFTBOX" />
@@ -32,10 +34,13 @@ class Main extends Component {
             </View>    */}
             
             <ProfileSettings />
+=======
+            <Provider store={store}>                   
+               <Router />          
+>>>>>>> b5d6898b36198bd1871711e0585d16a34680e41c
             </Provider>
         );
-    }
-     
+    }    
 }
 
 export default Main;
