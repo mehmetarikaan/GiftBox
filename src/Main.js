@@ -26,18 +26,8 @@ class Main extends Component {
     render() {
         const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
         return (
-<<<<<<< HEAD
-           <Provider store={store}>  
-            {/* <View>
-                <Header headerText="GIFTBOX" />
-                <LoginForm />
-            </View>    */}
-            
-            <ProfileSettings />
-=======
             <Provider store={store}>                   
                <Router />          
->>>>>>> b5d6898b36198bd1871711e0585d16a34680e41c
             </Provider>
         );
     }    
